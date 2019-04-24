@@ -34,8 +34,17 @@ curl -X POST \
 
 ## Future features
 
+1. Cache food truck data in another process to avoid performance issues and too many downstream requests.
 1. Parse out the `dayshours` and only return those trucks that are open at the current time (or allow the caller to choose)
 1. Add a link to driving/walking directions for easy click-and-go. 
+
+## Considerations for Production Readiness and Deployment
+
+1. Add unit tests using `jest`. As part of this, mock out the fetching of truck data.
+1. Configure CI and connect to gihub so that merging is disabled pending all CI and other checks.
+1. Spin up app configuration and deployment scripts so that the same codebase can be deployed anywhere with no code changes.
+1. Connect to Apollo Engine (https://engine.apollographql.com/) for detailed metrics on the running system.
+1. Connect app to monitoring services (e.g., DataDog, PagerDuty, etc.)
 
 ## Documentation
 
