@@ -18,8 +18,6 @@ module.exports = {
   testPathIgnorePatterns: [
     '/build/archive',
     '/node_modules/',
-    '/test/snapshot-tests/ab.js',
-    '/test/snapshot-tests/graphQLRequestContext.js',
   ],
   transform: {
     '^.+\\.jsx?$': 'babel-jest',

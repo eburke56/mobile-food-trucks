@@ -6,17 +6,17 @@ const trucks = require('./trucks');
 // a valid destination is one whose lat/lng is inside a bounding
 // box that includes San Francisco
 const allValidDestinations = _.chain(trucks)
-    .filter(
-        ({ latitude, longitude }) =>
-            latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
-    )
-    .map(({ applicant, address, latitude, longitude }) => ({
-        name: applicant,
-        address,
-        latitude,
-        longitude,
-    }))
-    .valueOf();
+  .filter(
+    ({ latitude, longitude }) =>
+      latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
+  )
+  .map(({ applicant, address, latitude, longitude }) => ({
+    name: applicant,
+    address,
+    latitude,
+    longitude,
+  }))
+  .valueOf();
 
 module.exports = {
   /**
@@ -81,7 +81,7 @@ module.exports = {
         if (!results) {
           error = new ApolloError('No results available');
         } else {
-          const orderedResults = _.chain(results)
+          return _.chain(results)
             .sortBy('travelDuration')
             .map(({ destinationIndex, travelDistance, travelDuration }) => {
               const {
@@ -102,8 +102,6 @@ module.exports = {
             })
             .take(limit)
             .valueOf();
-
-          return orderedResults;
         }
       }
     } catch (e) {

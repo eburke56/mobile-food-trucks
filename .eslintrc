@@ -1,5 +1,4 @@
 {
-  "extends": "@nerdwallet/eslint-config",
   "plugins": ["jest"],
   "env": {
     "mocha": false,

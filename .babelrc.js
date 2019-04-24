@@ -8,10 +8,6 @@ module.exports = {
       {
         root: ['./'],
         alias: {
-          '@app': './src/app',
-          '@network': './src/network',
-          '@playground': './src/playground',
-          '@services': './src/services',
           '@test': './test',
         },
       },
