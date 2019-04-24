@@ -18,6 +18,19 @@ Now you can find your food, your way!
    <image>
    * Modify your latitude and longitude appropriately.
    * Hit the big arrow button to find your food!
+1. Using the command line: execute the following `cURL`, substituting your latitude, longitude, preferred travelMode, and limit into the `variables` payload
+```bash
+curl -X POST \
+  -H 'Accept-Encoding: gzip, deflate, br' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Connection: keep-alive' \
+  -H 'DNT: 1' \
+  -H 'Origin: http://localhost:4000' \
+  --compressed \
+  --data-binary '{"query":"query FindTrucks(\n  $latitude: Float!\n  $longitude: Float!\n  $travelMode: String\n  $limit: Int\n) {\n  findTrucks(\n    latitude: $latitude\n    longitude: $longitude\n    travelMode: $travelMode\n    limit: $limit\n  ) {\n    name\n    address\n    travelDistance\n    travelDuration\n  }\n}","variables":{"latitude":37.77646,"longitude":-122.41645,"travelMode":"driving","limit":5}}' \
+  'http://localhost:4000/'
+```  
 
 ## Future features
 
