@@ -1,5 +1,4 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { ApolloError } = require('apollo-server-express');
 const { DistanceAPI, TruckAPI } = require('./service');
 const playground = require('./playground');
 const { findTrucks } = require('./findTrucks');

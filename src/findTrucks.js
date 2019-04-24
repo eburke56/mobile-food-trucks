@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { ApolloError } = require('apollo-server-express');
 
 // a valid destination is one whose lat/lng is inside a bounding
 // box that includes San Francisco
@@ -88,7 +89,7 @@ module.exports = {
                 address,
                 latitude,
                 longitude,
-              } = allValidDestinations[destinationIndex];
+              } = destinations[destinationIndex];
 
               return {
                 name,
