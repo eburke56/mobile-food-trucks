@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { ApolloError } = require('apollo-server-express');
-const { DistanceAPI, TruckAPI } = require('./service');
+const DistanceAPI = require('./service');
 const playground = require('./playground');
 const { findTrucks } = require('./findTrucks');
 
@@ -39,7 +39,6 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     distanceAPI: new DistanceAPI(),
-    truckAPI: new TruckAPI(),
   }),
   engine: process.env.ENGINE_API_KEY && {
     apiKey: process.env.ENGINE_API_KEY,

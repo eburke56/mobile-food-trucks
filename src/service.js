@@ -23,21 +23,4 @@ class DistanceAPI extends RESTDataSource {
   }
 }
 
-class TruckAPI extends RESTDataSource {
-  constructor() {
-    super();
-    this.baseURL = 'https://data.sfgov.org/resource/';
-  }
-
-  async getFoodTruckData() {
-    const request = this.get(`rqzj-sfat.json`);
-
-    // TODO: support timeout
-    return request;
-  }
-}
-
-module.exports = {
-  DistanceAPI,
-  TruckAPI,
-};
+module.exports = DistanceAPI;

@@ -1,23 +1,22 @@
 const _ = require('lodash');
+// TODO: fetch the JSON dynamically when the server starts up
+// TODO: fetch the JSON at regular intervals while server is running
+const trucks = require('./trucks');
 
 // a valid destination is one whose lat/lng is inside a bounding
 // box that includes San Francisco
-const allValidDestinations = async dataSources => {
-  const trucks = await dataSources.truckAPI.getFoodTruckData();
-
-  return _.chain(trucks)
-    .filter(
-      ({ latitude, longitude }) =>
-        latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
-    )
-    .map(({ applicant, address, latitude, longitude }) => ({
-      name: applicant,
-      address,
-      latitude,
-      longitude,
-    }))
-    .valueOf();
-};
+const allValidDestinations = _.chain(trucks)
+  .filter(
+    ({ latitude, longitude }) =>
+      latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
+  )
+  .map(({ applicant, address, latitude, longitude }) => ({
+    name: applicant,
+    address,
+    latitude,
+    longitude,
+  }))
+  .valueOf();
 
 module.exports = {
   /**
@@ -55,7 +54,7 @@ module.exports = {
       },
     ];
 
-    const destinations = await allValidDestinations(dataSources);
+    const destinations = allValidDestinations;
     let error;
 
     try {
