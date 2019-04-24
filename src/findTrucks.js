@@ -68,8 +68,6 @@ module.exports = {
 
       // If we did not get a valid response, throw an error.
       // Otherwise, we grab the data from the response and order by travel time.
-      // Return 5 trucks for now.
-      // TODO: allow caller to pass in how many trucks they want
       // TODO: support pagination
       if (!statusCode || statusCode !== 200) {
         error = new ApolloError(

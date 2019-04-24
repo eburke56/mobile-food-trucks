@@ -1,24 +1,29 @@
-# A GraphQL server example
+# Mobile Food Trucks, GraphQL style
 
->  **A simple, straight forward guide to building a GraphQL server with Apollo Server.**
+Now you can find your food, your way!
 
-## About this repository
+## Getting Started
 
-This repository is the example application for the [_Getting Started_ guide](https://www.apollographql.com/docs/apollo-server/v2/getting-started.html) in the Apollo Server documentation.
+1. Make sure you have `npm` installed. Follow the instructions here: https://www.npmjs.com/get-npm
+1. Clone this repository. `git clone git@github.com:eburke56/mobile-food-trucks.git`
+1. In the toplevel directory of your clone, run `npm install`
+1. To start the server, run `npm start`
+1. ~~Profit!~~ Eat!
 
-## Online sandbox
+## Getting your results
 
-Play with this example using [Glitch](https://glitch.com/) by clicking the following button:
+1. Using a web browser
+   * Navigate to http://localhost:4000
+   * In the Playground, you will see a tab called "Find Food Trucks". This will allow you to run your query.
+   <image>
+   * Modify your latitude and longitude appropriately.
+   * Hit the big arrow button to find your food!
 
-[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/apollographql/graphql-server-example)
+## Future features
 
-## Installation
-
-1. Clone this repository: `git clone git@github.com:apollographql/graphql-server-example.git`
-2. `cd` into the `graphql-server-example` folder and run the following commands:
-    1. Run `npm install`
-    2. Run `node index.js`
-3. Open your browser and see the server running on `localhost:4000/graphql` with the GraphQL playground.
+1. Fetch truck data regularly, or even in real-time.
+1. Parse out the `dayshours` and only return those trucks that are open at the current time (or allow the caller to choose)
+1. Add a link to driving/walking directions for easy click-and-go. 
 
 ## Documentation
 
