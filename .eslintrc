@@ -1,0 +1,21 @@
+{
+  "extends": "@nerdwallet/eslint-config",
+  "plugins": ["jest"],
+  "env": {
+    "mocha": false,
+    "browser": false,
+    "jest": true
+  },
+  "rules": {
+    "global-require": "off",
+    "no-console": "off",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/camelcase": "off",
+    "camelcase": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "eslint-import-resolver-babel-module": {}
+    }
+  }
+}

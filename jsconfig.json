@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@app": ["src/app"],
+      "@network": ["src/network"],
+      "@services": ["src/services"],
+      "@test": ["test"]
+    }
+  },
+  "exclude": ["doc", "node_modules", "script"]
+}
