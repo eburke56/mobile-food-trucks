@@ -9,26 +9,18 @@ const allValidDestinations = _.chain(trucks)
     ({ latitude, longitude }) =>
       latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
   )
-  .map(({ applicant, address, latitude, longitude, dayshours }) => ({
+  .map(({ applicant, address, latitude, longitude }) => ({
     name: applicant,
     address,
     latitude,
     longitude,
-    dayshours,
   }))
   .valueOf();
 
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
-  type Availability {
-    day: String!
-    open: String!
-    close: String!
-  }
-
-  # This "Book" type can be used in other type declarations.
+  # FoodTruck defines a single truck entity
   type FoodTruck {
     name: String!
     address: String!
@@ -36,17 +28,15 @@ const typeDefs = gql`
     longitude: Float!
     travelDistance: Float!
     travelDuration: Float!
-    availability: [Availability!]
-    isOpenNow: Boolean!
   }
 
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
   type Query {
+    # find the trucks nearest the given location
     findTrucks(
       latitude: Float!
       longitude: Float!
-      travelMode: String!
+      travelMode: String
+      limit: Int
     ): [FoodTruck!]
   }
 `;
@@ -57,9 +47,22 @@ const resolvers = {
   Query: {
     findTrucks: async (
       parent,
-      { latitude, longitude, travelMode },
+      { latitude, longitude, travelMode = 'driving', limit = 5 },
       { dataSources }
     ) => {
+      switch (travelMode) {
+        case 'driving':
+        case 'walking':
+          break;
+
+        default:
+          throw new ApolloError('travelMode must be driving or walking');
+      }
+
+      if (limit <= 0) {
+        throw new ApolloError('limit must be >= 0');
+      }
+
       const origins = [
         {
           latitude,
@@ -115,10 +118,9 @@ const resolvers = {
                   longitude,
                   travelDistance,
                   travelDuration,
-                  isOpenNow: false,
                 };
               })
-              .take(5)
+              .take(limit)
               .valueOf();
 
             return orderedResults;
@@ -145,10 +147,68 @@ const server = new ApolloServer({
   engine: process.env.ENGINE_API_KEY && {
     apiKey: process.env.ENGINE_API_KEY,
   },
+  playground: {
+    settings: {
+      'general.betaUpdates': false,
+
+      // possible values: 'line', 'block', 'underline'
+      'editor.cursorShape': 'line',
+      'editor.fontSize': 14,
+      'editor.fontFamily':
+        "'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace",
+
+      // possible values: 'dark', 'light'
+      'editor.theme': 'light',
+
+      // new tab reuses headers from last tab
+      'editor.reuseHeaders': true,
+      'prettier.printWidth': 80,
+
+      // Used for sending credentials when making requests;
+      // see https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+      'request.credentials': 'same-origin',
+
+      // if true, removes the "tracing" object from the GraphQL response
+      // which contains information about timing, etc.
+      'tracing.hideTracingResponse': false,
+    },
+    tabs: [
+      {
+        endpoint: '/',
+        name: 'Find Food Trucks',
+        query: `query FindTrucks(
+  $latitude: Float!
+  $longitude: Float!
+  $travelMode: String
+  $limit: Int
+) {
+  findTrucks(
+    latitude: $latitude
+    longitude: $longitude
+    travelMode: $travelMode
+    limit: $limit
+  ) {
+    name
+    address
+    travelDistance
+    travelDuration
+  }
+}`,
+        variables: JSON.stringify(
+          {
+            latitude: 37.77646,
+            longitude: -122.41645,
+            travelMode: 'driving',
+            limit: 5,
+          },
+          null,
+          2
+        ),
+      },
+    ],
+  },
 });
 
-// This `listen` method launches a web-server.  Existing apps
-// can utilize middleware options, which we'll discuss later.
 server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+  console.log(`�  Server ready at ${url}`);
 });
