@@ -4,7 +4,7 @@ Now you can find your food, your way!
 
 ## Getting Started
 
-1. Make sure you have `npm` installed. Follow the instructions here: https://www.npmjs.com/get-npm
+1. Make sure you have `node.js` and `npm` installed. Follow the instructions here: https://www.npmjs.com/get-npm
 1. Clone this repository. `git clone git@github.com:eburke56/mobile-food-trucks.git`
 1. In the toplevel directory of your clone, run `npm install`
 1. To start the server, run `npm start`
