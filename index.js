@@ -4,21 +4,19 @@ const { ApolloError } = require('apollo-server-express');
 const DistanceAPI = require('./service');
 const trucks = require('./trucks');
 
-const filteredTrucks = _.map(
-  trucks,
-  ({ applicant, address, latitude, longitude, dayshours }) => ({
+const allValidDestinations = _.chain(trucks)
+  .filter(
+    ({ latitude, longitude }) =>
+      latitude > 30 && latitude < 40 && longitude > -125 && longitude < -115
+  )
+  .map(({ applicant, address, latitude, longitude, dayshours }) => ({
     name: applicant,
     address,
     latitude,
     longitude,
     dayshours,
-  })
-);
-
-const allDestinations = _.map(filteredTrucks, ({ latitude, longitude }) => ({
-  latitude,
-  longitude,
-}));
+  }))
+  .valueOf();
 
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
@@ -36,6 +34,8 @@ const typeDefs = gql`
     address: String!
     latitude: Float!
     longitude: Float!
+    travelDistance: Float!
+    travelDuration: Float!
     availability: [Availability!]
     isOpenNow: Boolean!
   }
@@ -68,7 +68,7 @@ const resolvers = {
       ];
 
       // here, we filter out any locations whose data is not valid, e.g., lat/lng = 0
-      const destinations = _.take(allDestinations, 4);
+      const destinations = allValidDestinations;
       let error;
 
       try {
@@ -100,6 +100,24 @@ const resolvers = {
           } else {
             const orderedResults = _.chain(results)
               .sortBy('travelDuration')
+              .map(({ destinationIndex, travelDistance, travelDuration }) => {
+                const {
+                  name,
+                  address,
+                  latitude,
+                  longitude,
+                } = allValidDestinations[destinationIndex];
+
+                return {
+                  name,
+                  address,
+                  latitude,
+                  longitude,
+                  travelDistance,
+                  travelDuration,
+                  isOpenNow: false,
+                };
+              })
               .take(5)
               .valueOf();
 
@@ -110,7 +128,7 @@ const resolvers = {
         error = new ApolloError(e);
       }
 
-      throw error || new ApolloError("Unknown error");
+      throw error || new ApolloError('Unknown error');
     },
   },
 };
