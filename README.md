@@ -21,7 +21,6 @@ Now you can find your food, your way!
 
 ## Future features
 
-1. Fetch truck data regularly, or even in real-time.
 1. Parse out the `dayshours` and only return those trucks that are open at the current time (or allow the caller to choose)
 1. Add a link to driving/walking directions for easy click-and-go. 
 
