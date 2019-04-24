@@ -1,4 +1,4 @@
-const trucks = [
+module.exports = [
     {
       ':@computed_region_bh8s_q3mv': '28855',
       ':@computed_region_fyvs_ahh9': '6',
